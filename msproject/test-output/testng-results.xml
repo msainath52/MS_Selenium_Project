@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="2" passed="2">
+  <reporter-output>
+    <line>
+      <![CDATA[Home Page Displayd]]>
+    </line>
+    <line>
+      <![CDATA[UN,PWD are exists]]>
+    </line>
+    <line>
+      <![CDATA[OrangeHRM page is displayed]]>
+    </line>
+    <line>
+      <![CDATA[welcomeqaplanet1displaye]]>
+    </line>
+    <line>
+      <![CDATA[Sign Off & Succesful home page displayed]]>
+    </line>
+    <line>
+      <![CDATA[Home Page Displayd]]>
+    </line>
+    <line>
+      <![CDATA[UN,PWD are exists]]>
+    </line>
+    <line>
+      <![CDATA[OrangeHRM page is displayed]]>
+    </line>
+    <line>
+      <![CDATA[welcomeqaplanet1displaye]]>
+    </line>
+    <line>
+      <![CDATA[Add Employee]]>
+    </line>
+    <line>
+      <![CDATA[Sign Off & Succesful home page displayed]]>
+    </line>
+  </reporter-output>
+  <suite name="Suite" duration-ms="17883" started-at="2017-08-21T10:19:10Z" finished-at="2017-08-21T10:19:28Z">
+    <groups>
+    </groups>
+    <test name="Test" duration-ms="17883" started-at="2017-08-21T10:19:10Z" finished-at="2017-08-21T10:19:28Z">
+      <class name="ms_TestScripts.MS_TC2">
+        <test-method status="PASS" signature="AddEmployee()[pri:0, instance:ms_TestScripts.MS_TC2@af6cff]" name="AddEmployee" duration-ms="8511" started-at="2017-08-21T15:49:19Z" finished-at="2017-08-21T15:49:28Z">
+          <reporter-output>
+            <line>
+              <![CDATA[Home Page Displayd]]>
+            </line>
+            <line>
+              <![CDATA[UN,PWD are exists]]>
+            </line>
+            <line>
+              <![CDATA[OrangeHRM page is displayed]]>
+            </line>
+            <line>
+              <![CDATA[welcomeqaplanet1displaye]]>
+            </line>
+            <line>
+              <![CDATA[Add Employee]]>
+            </line>
+            <line>
+              <![CDATA[Sign Off & Succesful home page displayed]]>
+            </line>
+          </reporter-output>
+        </test-method> <!-- AddEmployee -->
+      </class> <!-- ms_TestScripts.MS_TC2 -->
+      <class name="ms_TestScripts.MS_TC1">
+        <test-method status="PASS" signature="AddEmployee()[pri:0, instance:ms_TestScripts.MS_TC1@a48474]" name="AddEmployee" duration-ms="9362" started-at="2017-08-21T15:49:10Z" finished-at="2017-08-21T15:49:19Z">
+          <reporter-output>
+            <line>
+              <![CDATA[Home Page Displayd]]>
+            </line>
+            <line>
+              <![CDATA[UN,PWD are exists]]>
+            </line>
+            <line>
+              <![CDATA[OrangeHRM page is displayed]]>
+            </line>
+            <line>
+              <![CDATA[welcomeqaplanet1displaye]]>
+            </line>
+            <line>
+              <![CDATA[Sign Off & Succesful home page displayed]]>
+            </line>
+          </reporter-output>
+        </test-method> <!-- AddEmployee -->
+      </class> <!-- ms_TestScripts.MS_TC1 -->
+    </test> <!-- Test -->
+  </suite> <!-- Suite -->
+</testng-results>

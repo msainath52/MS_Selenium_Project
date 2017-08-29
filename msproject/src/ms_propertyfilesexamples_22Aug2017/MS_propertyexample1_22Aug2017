@@ -1,0 +1,16 @@
+
+
+
+
+
+# url of application
+URL = http://apps.qaplanet.in/qahrm/login.php
+
+# username
+username = qaplanet1
+
+# password
+password = user1
+
+# email
+email = msainath52@outlook.com
