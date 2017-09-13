@@ -178,6 +178,7 @@ public class MS_Selenium_TC_02 {
 		System.out.println("Personal Details displayed");
 		}
 
+				
 //Switch to parent frame
 		Driver.switchTo().parentFrame();
 
