@@ -1,14 +1,17 @@
 package ms_testcases;
 
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.gargoylesoftware.htmlunit.javascript.host.canvas.ext.WEBGL_compressed_texture_s3tc;
+import com.gargoylesoftware.htmlunit.javascript.host.media.webkitMediaStream;
 
 public class MS_Selenium_TC09_TC10_TC11 
 {
@@ -243,6 +246,10 @@ public class MS_Selenium_TC09_TC10_TC11
 				return;
 				}
 				
+				
+// S.No 7  -  Keep all fileds as blank and click on save
+				
+				
 				// click save button
 					WebElement OBJSAVE = Driver.findElement(By.xpath("//*[@id='frmJobTitle']/div[2]/input[1]"));
 					OBJSAVE.click();
@@ -260,6 +267,9 @@ public class MS_Selenium_TC09_TC10_TC11
 						System.out.println("Alert is not displayed '");
 					A.accept();	
 					}
+
+// S.No 8  -   Enter Job title and click on save
+					
 					
 				// Create web elements for job title name and job description
 					
@@ -272,6 +282,10 @@ public class MS_Selenium_TC09_TC10_TC11
 					OBJJTN.clear();
 					OBJJTN.sendKeys(JTN);
 					OBJSAVE.click();
+					
+					
+// S.No 9  -  Enter job description and click on save
+					
 					
 					if(A.getText().equals("Job Description should be specified"))
 					{
@@ -288,10 +302,114 @@ public class MS_Selenium_TC09_TC10_TC11
 					OBJJDIS.sendKeys(JDIS);
 					OBJSAVE.click();
 					
+				
+					WebElement OBJES = Driver.findElement(By.name("cmbAssEmploymentStatus"));
+					WebElement OBJAES = Driver.findElement(By.name("butUnAssEmploymentStatus"));
+					WebElement OBJEES = Driver.findElement(By.name("butUnAssEmploymentStatus"));
+					WebElement OBJLDRP = Driver.findElement(By.xpath("//*[@id='cmbAssEmploymentStatus']"));
+					WebElement OBJRDRP = Driver.findElement(By.xpath("//*[@id='cmbUnAssEmploymentStatus']"));
+					WebElement OBJADD1 = Driver.findElement(By.xpath("//input[@value='< Add']"));
+					WebElement OBJRMV1 = Driver.findElement(By.xpath("//input[@value='Remove']"));
+							
+					if(OBJES.isDisplayed()&&OBJAES.isDisplayed()&&OBJEES.isDisplayed())
+					{
+						System.out.println("Employment Status, Add Employment Status,Edit Employment Status are displayed");
+					}
+					else
+					{
+						System.out.println("Employment Status, Add Employment Status,Edit Employment Status are not displayed");
+					}
+					
+					if(OBJLDRP.isDisplayed()&&OBJRDRP.isDisplayed()&&OBJADD1.isDisplayed()&&OBJRMV1.isDisplayed())
+					{
+						System.out.println("Left dropsown,Right dropdown, Add and Remove buttons are displayed");
+					}
+					else
+					{
+						System.out.println("Left dropsown,Right dropdown, Add and Remove buttons are not displayed");
+					}
+					
+					Thread.sleep(2000);
+					if(OBJLDRP.isDisplayed()&&OBJRDRP.isDisplayed()&&OBJADD1.isDisplayed()&&OBJRMV1.isDisplayed())
+					{
+						System.out.println("Left and Right drop boxes and ADD,Remove buttons are displayed");
+					}
+					else
+					{
+						System.out.println("Left and Right drop boxes and ADD,Remove buttons are not displayed");
+					}
+					
+					Thread.sleep(2000);
 					
 					
+// S.No 10  -  Edit employee status details and other info and click on save					
 					
+				// Create webelement for EDIT					
+					WebElement OBJEDIT = Driver.findElement(By.xpath("//input[@id='editBtn']"));
+					OBJEES.click();
+					
+				// Click on Edit Employment Status
+					
+					Select S = new Select(OBJRDRP);
+					S.selectByVisibleText("Full Time Contract");
+					Driver.findElement(By.xpath("//*[@id='frmJobTitle']/div[1]/input[1]")).click();
+					Thread.sleep(3000);
+					
+					WebElement OBJFTP = Driver.findElement(By.xpath("//*[@id='cmbAssEmploymentStatus']/option[4]"));
+					if(OBJFTP.isDisplayed())
+					{
+						System.out.println("Full Time Permanent is Added and Displayed");
+					}
+					else
+					{
+						System.out.println("Not Displayed");
+					}
+					
+			// Click on Save					
+					WebElement OBJSAV1 = Driver.findElement(By.xpath("//*[@id='editBtn']"));
+					Thread.sleep(3000);
+					OBJSAV1.click();
+					Thread.sleep(3000);
+					
+			// Verification for Successfully Updated
+					
+					if(Driver.findElement(By.xpath("//html/body/div[1]/div[2]/form/div[2]/span")).getText().equals("Successfully Updated"))
+					{
+						System.out.println("Successfully Updated is Displayed");
+					}
+					else
+					{
+						System.out.println("Successfully Updated is not Displayed");
+					}
+					
+			//To get row count					
+					int rc = Driver.findElements(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr")).size();
+					
+					System.out.println(rc);
+					
+					int i;
+					
+			// Loop for selecting row count
+					
+					for(i=rc;i<=rc;i++)
+					{
+						// Get location name info details
 						
+						String OBJJTN1 = Driver.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).getText();
+					
+					if(OBJJTN1.equals(JTN))
+					  {
+						System.out.println(JTN+"Displayed at:"+i);
+					  }
+					
+
+
+					Driver.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).click();
+					
+					}
+					
+			// Edit Job Title and Delete Job Title test cases is pending		
+					
 				
 				
 				
