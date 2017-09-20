@@ -1,0 +1,17 @@
+<suite name="HRM automation">
+<test name="PIM">
+<classes>
+<class name="TestScripts.Tc1_addEmployeeLogin"/>
+<class name="TestScripts.Tc2_addEmployee"/>
+<class name="TestScripts.TC4_editEmployee"/>
+<class name="TestScripts.TC5_deleteEmployee"/>
+<class name="TestScripts.Tc3_addLocation"/>
+<class name="TestScripts.TC6_editLocation"/>
+<class name="TestScripts.TC7_deleteLocation"/>
+<class name="TestScripts.TC8_addJoTitles"/>
+<class name="TestScripts.TC9_editJob"/>
+<class name="TestScripts.TC10_deleteJobDeatils"/>
+</classes>
+</test>
+</suite>
+
