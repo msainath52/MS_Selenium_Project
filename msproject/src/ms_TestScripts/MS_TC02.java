@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import ms_LIB.MS_BusinessFunctions;
 
 
-public class MS_TC2
+public class MS_TC02
 {
 	
 	@Test

@@ -265,8 +265,9 @@ public class MS_Selenium_TC09_TC10_TC11
 					else
 					{
 						System.out.println("Alert is not displayed '");
-					A.accept();	
+					
 					}
+					A.accept();	
 
 // S.No 8  -   Enter Job title and click on save
 					
@@ -295,9 +296,10 @@ public class MS_Selenium_TC09_TC10_TC11
 					{
 						System.out.println("Alert is not displayed '");
 					Thread.sleep(2000);	
-					A.accept();	
+					
 					}
 					
+					A.accept();	
 					OBJJDIS.clear();
 					OBJJDIS.sendKeys(JDIS);
 					OBJSAVE.click();
@@ -309,7 +311,8 @@ public class MS_Selenium_TC09_TC10_TC11
 					WebElement OBJLDRP = Driver.findElement(By.xpath("//*[@id='cmbAssEmploymentStatus']"));
 					WebElement OBJRDRP = Driver.findElement(By.xpath("//*[@id='cmbUnAssEmploymentStatus']"));
 					WebElement OBJADD1 = Driver.findElement(By.xpath("//input[@value='< Add']"));
-					WebElement OBJRMV1 = Driver.findElement(By.xpath("//input[@value='Remove']"));
+					
+					WebElement OBJRMV1 = Driver.findElement(By.xpath("//input[@value='Remove >']"));
 							
 					if(OBJES.isDisplayed()&&OBJAES.isDisplayed()&&OBJEES.isDisplayed())
 					{
@@ -346,7 +349,7 @@ public class MS_Selenium_TC09_TC10_TC11
 					
 				// Create webelement for EDIT					
 					WebElement OBJEDIT = Driver.findElement(By.xpath("//input[@id='editBtn']"));
-					OBJEES.click();
+					OBJEDIT.click();
 					
 				// Click on Edit Employment Status
 					
@@ -355,7 +358,7 @@ public class MS_Selenium_TC09_TC10_TC11
 					Driver.findElement(By.xpath("//*[@id='frmJobTitle']/div[1]/input[1]")).click();
 					Thread.sleep(3000);
 					
-					WebElement OBJFTP = Driver.findElement(By.xpath("//*[@id='cmbAssEmploymentStatus']/option[4]"));
+					WebElement OBJFTP = Driver.findElement(By.xpath("//*[@id='cmbAssEmploymentStatus']/option[2]"));
 					if(OBJFTP.isDisplayed())
 					{
 						System.out.println("Full Time Permanent is Added and Displayed");
@@ -410,7 +413,150 @@ public class MS_Selenium_TC09_TC10_TC11
 					
 			// Edit Job Title and Delete Job Title test cases is pending		
 					
-				
+					// select row count
+			           
+			           int rc2=Driver.findElements(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr")).size();
+			           int j;
+			           // LOOP
+			           
+			           for( j=rc;j<=rc2;j++)
+			           {
+			                   String JTNAME=Driver.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+j+"]/td[3]/a")).getText();
+			                   if(JTNAME.equals(JTN))
+			                   {
+			                   System.out.println(JTN+" DISPLAYED AT :"+i);
+			                   }
+			                   else
+			                   {
+			                   System.out.println(JTN +"IS NOT DISPLAYED ");
+			                   }
+			               
+			               //----------------TEST CASE - 10 ---  EDIT JOB TITLE---------------------------------//
+			               
+			               Driver.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).click();
+			               
+			           }
+			           
+			         Thread.sleep(2000);
+			        // CREATE WEB ELEMENT FOR EDIT
+			          WebElement OBJEDIT1=Driver.findElement(By.xpath("//input[@id='editBtn']"));
+			         OBJEDIT1.click();
+			         Thread.sleep(2000);
+			         
+			        // AGAIN VERIFY Job : Job Title 
+			             if(Driver.findElement(By.xpath("//div[@class='mainHeading']/h2")).getText().equals("Job : Job Title"))
+			             {
+			           System.out.println("Job : Job Title is AGAIN  displayed");
+			             }
+			             else
+			             {
+			                 System.out.println("Job : Job Title is  not displayed AGAIN");
+			             }
+			             //EDIT JOB TITLE NAME
+			             WebElement OBJJTN1=Driver.findElement(By.xpath("//*[@id='txtJobTitleName']"));
+			             String JTN2="TEST ENGINEER";
+			             
+			             OBJJTN1.clear();
+			             OBJJTN1.sendKeys(JTN2);
+			             //OBJSAV.click();
+			             Thread.sleep(3000);
+			             /*
+			                WebElement OBJLDRP2=Driver.findElement(By.xpath("//*[@id='cmbAssEmploymentStatus']/option[2]"));
+			                Select S1=new Select(OBJLDRP2);
+			                
+			                
+			                 S1.selectByVisibleText("Full Time Permanent");
+			                 WebElement WERMV1=Driver.findElement(By.xpath("//input[@value='Remove >']"));
+			                 WERMV1.click();
+			                 if(WERMV1.isDisplayed())
+			                 {
+			                    System.out.println("Full Time Permanent is Removed");
+
+			                 }
+			                 else
+			                 {
+			                    System.out.println("Full Time Permanent is Not Removed");
+
+			                 }
+			                 Thread.sleep(2000);*/
+			                 
+			                 // CLICK ON SAVE
+			                 Driver.findElement(By.xpath("//*[@id='editBtn']")).click();
+			                Thread.sleep(2000);
+			                
+
+			                // verification sucess fully updated or not
+			                if(Driver.findElement(By.xpath("html/body/div[1]/div[2]/form/div[2]/span")).getText().equals("Successfully Updated"))
+			                {
+			                    System.out.println("Successfully Updated is displayed 2");
+			                }
+			                else
+			                {
+			                    System.out.println("Successfully Updated is not displayed 2");
+			                }
+			                
+			               
+			                //  LOOP2 
+			                
+			                for(int j2=rc;j2<=rc;j2++)
+			                  {
+			                      String JTNAME1=Driver.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+j2+"]/td[3]/a")).getText();
+			                      if(JTNAME1.equals(JTN2))
+			                      {
+			                          System.out.println(JTN2+" DISPLAYED AT :"+j2);
+			                      }
+			                      else
+			                      {
+			                          System.out.println(JTN2 +"IS NOT DISPLAYED ");
+			                      }
+			                //------------------------TEST CASE  - 11 JOBTITLE DELETION----------------------------------------//
+			                      
+			                      
+			                Driver.findElement(By.xpath("html/body/div[1]/div[2]/form/table/tbody/tr["+j2+"]/td[1]/input")).click();
+			               
+			                  }
+			                
+			                Driver.findElement(By.xpath("//input[@value='Delete']")).click();
+			                
+			                if(A.getText().equals("Deletion may affect Pay Grade of Employees in PIM. Do you want to delete ?"))
+			                {
+			                    System.out.println("ALERT DISPLAYED AS : Do you want to delete ? ");
+			                }
+			                A.accept();
+			                
+			            // VERIFY SUCESSFULLY DELETED OR NOT
+			                
+			                if(Driver.findElement(By.xpath("//div[@class='messagebar']")).getText().equals("Successfully Deleted"))
+			                {
+			                    System.out.println(JTN2+" DELETED AT:"+i);
+			                }
+			                else
+			                {
+			                    System.out.println("Successfully Deleted is not Displayed");
+			                }
+			               Driver.switchTo().defaultContent();
+			               Thread.sleep(3000);
+			                // click on logout
+			                //OBJLOGOUT.click();
+			               Driver.findElement(By.linkText("Logout")).click();
+			                
+			                // wait & verify home page is displayed or not
+			               wait.until(ExpectedConditions.titleIs("OrangeHRM - New Level of HR Management"));
+			               
+			                if(Driver.getTitle().equals("OrangeHRM - New Level of HR Management"))
+			                {
+			                    System.out.println("LOGOUT SUCESSFULL & HOME PAGE IS DISPLAYED");
+			                }
+			                else
+			                {
+			                    System.out.println("FAILED TO OPEN HOME PAGE");
+			                }
+			                // CLOSE & QUIT THE BROWSER
+			               Driver.close();
+			               Driver.quit();
+			               
+			                
+
 				
 				
 				
