@@ -32,9 +32,71 @@ public class MS_BusinessFunctions
 	WebElement objPWD;
 	WebElement PIM;
 	Actions Act;
+	WebElement objLogout;
+	String Empname;
+	String strinText;
+	WebElement weJObEdit;
+	WebElement eJob;
+	Select sJob;
+
+	WebElement eJobStat;
+	Select sJobStat;
+	//WebElement OBJJOB;
+	//WebElement OBJQAL;
+	//WebElement OBJSKL;
+	WebElement OBJGNL;
+	WebElement OBJLOC;
+	WebElement OBJCSTR;
+	WebElement OBJCPRO;
+//	WebElement OBJSRH;
+//	WebElement OBJRST;
+//	WebElement OBJADD;
+//	WebElement OBJDLT;
+//	WebElement OBJSAVE;
+	String LCNAME;
+	WebElement OBJLNAME;
+	Select SCNTR;
+	WebElement OBJCNTR;
+	String LNAME;
+	//WebElement OBJLNAME1;
+	//WebElement OBJLNAME1
+	String NEWNAME;
+
+	String OBJMSG;
 	WebElement OBJADM;
 	WebElement OBJCOM;
 	WebElement OBJJOB;
+	Alert A;
+	//WebElement OBJADM;
+	//WebElement OBJCOM;
+	//WebElement OBJJOB;
+	WebElement OBJQAL;
+	WebElement OBJSKL;
+	WebElement OBJJOB1;
+	WebElement OBJJTTL;
+	WebElement OBJJSPC;
+	WebElement OBJJPAYG;
+	WebElement OBJJEMST;
+	WebElement OBJJEOJC;
+	WebElement OBJSDROP;
+	WebElement OBJSFOR;
+	WebElement OBJDLT;
+	WebElement OBJADD;
+	WebElement OBJRST;
+	WebElement OBJSRH;
+	WebElement OBJSAVE;
+	WebElement OBJJTN;
+	WebElement OBJJDIS;
+	String JTN;
+	String JDIS;
+	
+	String JTN2;
+int j;
+int i;
+
+int j2;
+int rc;
+	WebElement OBJEDIT2;
 	
 // Driver Configuration
 	
@@ -64,6 +126,7 @@ public class MS_BusinessFunctions
 		
 		Wait = new WebDriverWait(Brow, 30);
 		Brow.manage().window().maximize ();
+		Act=new Actions(Brow);
 		
 		
 	}
@@ -142,7 +205,8 @@ public class MS_BusinessFunctions
 	{
 		// click on logout
 		
-		Brow.findElement(By.linkText("Logout")).click();
+		objLogout=Brow.findElement(By.linkText("Logout"));
+		objLogout.click();
 		Wait.until(ExpectedConditions.titleIs("OrangeHRM - New Level of HR Management"));
 		
 		// Verify Home Page
@@ -154,11 +218,12 @@ public class MS_BusinessFunctions
 		
 // Add Employee
 		
-    public void AddEmployee() throws Exception
+    public void AddEmployee(String FN,String LN) throws Exception
     {
-    	
+    	Thread.sleep(2000);
  			//create object for  PIM
 			PIM=Brow.findElement(By.id("pim"));
+			
 			//mouse over onPIM
 			Act.moveToElement(PIM).perform();
 			//click on add empleye
@@ -172,17 +237,14 @@ public class MS_BusinessFunctions
 			{
 				Reporter.log("PIM : Add Employee displayed");
 							}
-			//Define FN,LN
-			String FN="QAP";
-			String LN="Tset";
 			Brow.findElement(By.xpath("//input[@id='txtEmpFirstName']")).sendKeys(FN);
 			Brow.findElement(By.name("txtEmpLastName")).sendKeys(LN);
 			//cilck on Browse
-			Brow.findElement(By.id("photofile")).click();
+			//Brow.findElement(By.id("photofile")).click();
 			//wait 2sec 
 			Thread.sleep(5000);
 			//Runtime.getRuntime().exec("D:\\subbu\\Autoit\\upload.exe");
-			Runtime.getRuntime().exec("D:\\subbu\\Autoit\\upload.exe");
+			//Runtime.getRuntime().exec("D:\\subbu\\Autoit\\upload.exe");
 			Thread.sleep(8000);
 			//click on save 
 			Brow.findElement(By.id("btnEdit")).click();
@@ -210,7 +272,7 @@ public class MS_BusinessFunctions
 					for(i=1; i<=rc; i++)
 										{
 			//Get text from third column
-				String Empname=Brow.findElement(By.xpath("//table[@class='data-table']/tbody/tr["+i+"]/td[3]/a")).getText();
+				Empname=Brow.findElement(By.xpath("//table[@class='data-table']/tbody/tr["+i+"]/td[3]/a")).getText();
 				if (Empname.equals(FN+" "+LN))
 				{
 					Reporter.log(Empname+"displayedat"+i);
@@ -222,62 +284,53 @@ public class MS_BusinessFunctions
 
  		}
     
-    public void edit_employee(String FN,String MN,String LN)
+    public void edit_employee(String FN,String LN)
 	{
-    	Brow.switchTo().frame("rightMenu");
-		int rc=Brow.findElements(By.xpath("//table[@class='data-table']/tbody/tr")).size();
-		System.out.println(rc);
-		int i ;
-		for(i=1;i<=rc;i++)
+		
+//-------------------------Check empployee details---------------------------------------------------
+//Get row count
+						int rc1=Brow.findElements(By.xpath("//table[@class='data-table']/tbody/tr")).size();
+						int j;
+						for(j=rc1;j<=rc1;j++)  // It considers the name which we enter in the last
+						{
+
+//Get second column data
+							String sEmpID=Brow.findElement(By.xpath("//table[@class='data-table']/tbody/tr["+j+"]/td[2]")).getText();
+//Get third column data
+						String sEmpName=Brow.findElement(By.xpath("//table[@class='data-table']/tbody/tr["+j+"]/td[3]/a")).getText();
+						if(sEmpName.equals(FN+" "+LN))
+						{
+						System.out.println(Brow+" , "+sEmpName+" displayed at: "+j);
+						//break;
+						}			
+				
+// To delete the employee
+						
+						Brow.findElement(By.xpath("//*[@id='standardView']/table/tbody/tr["+j+"]/td[1]/input")).click();	
+				}
+						
+						Brow.findElement(By.xpath("//input[@value='Delete']")).click(); 		
+						
+				String DelTxt = Brow.findElement(By.xpath("//*[@id='standardView']/div[2]/span")).getText();		
+				System.out.println(DelTxt);		 
+						
+//Switch to top frame
+				Brow.switchTo().defaultContent();
+//---------------------------------------------------------------------------
+
+		
+//Verify home page
+		if(Wait.until(ExpectedConditions.titleIs("OrangeHRM - New Level of HR Management")))
 		{
-			//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			String strinText= Brow.findElement(By.xpath("//table[@class='data-table']/tbody/tr["+i+"]/td[3]/a")).getText();
-			if(strinText.equals(equals(FN+" "+MN+" "+LN)))
-			{
-				System.out.println("User name is dipalyed at locatio"+ i);
-				break;
-			}
-			 System.out.println("Elemnet is not in the list" +i);
+		System.out.println("Signoff sucessfull & Home Page displayed");
 		}
-		Brow.findElement(By.xpath("//table[@class='data-table']/tbody/tr["+i+"]/td[3]/a")).click();
-		Brow.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		
-		//THIS IS THE JOB DETAILS OF THE EMPLOYEE.
-		
-		System.out.println("--------------------------------------------------------");
-        System.out.println("THIS IS THE EMPLOYEE JOB DETAILS");
-        System.out.println("--------------------------------------------------------");
-        Wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='jobLink']/span")));
-        if( Brow.findElement(By.xpath(".//*[@id='jobLink']/span")).isDisplayed())
-        {
-       	 System.out.println("Job details of employee is displayed");
-        }
-        
-        Brow.findElement(By.xpath(".//*[@id='jobLink']/span")).click();
-        
-        
-        WebDriverWait wait1 = new WebDriverWait(Brow, 10);
-       wait1.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath(".//*[@id='job']/div[1]/div[2]/div[1]/h2"), "Job"));
-       //Selecting the Job Title
-       WebElement weJObEdit = Brow.findElement(By.xpath(".//*[@id='btnEditJob']"));
-       weJObEdit.click();
-       
-        WebElement eJob= Brow.findElement(By.xpath(".//*[@id='cmbJobTitle']"));
-        Select sJob = new Select(eJob);
-        sJob.selectByVisibleText("Tester");
-        //Selecting the Employeement Satus
-        Brow.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        WebElement eJobStat= Brow.findElement(By.xpath("/html/body/form/div[3]/div[1]/div[2]/div[2]/div/select"));				         
-        Select sJobStat = new Select(eJobStat);
-        sJobStat.selectByIndex(1);
-        //JOing Date
-        Brow.findElement(By.id("txtJoinedDate")).clear();
-        Brow.findElement(By.id("txtJoinedDate")).sendKeys("2014-22-08");
-       
-        Brow.findElement(By.id("btnEditJob")).click();
-		
+		else
+		{
+		System.out.println("Failed to Signoff");
+		return;
+		}
+//--------------------------------------------------------------
 	}
-    
     
     
     public void addlocation() throws FileNotFoundException, IOException, Exception
@@ -301,9 +354,9 @@ public class MS_BusinessFunctions
     			
     			//Creat objects for Company info, Job, Qualifications, Skills .. Etc		
     			OBJCOM = Brow.findElement(By.linkText("Company Info"));
-    			WebElement OBJJOB = Brow.findElement(By.linkText("Job"));
-    			WebElement OBJQAL = Brow.findElement(By.linkText("Qualification"));
-    			WebElement OBJSKL = Brow.findElement(By.linkText("Skills"));
+    			OBJJOB = Brow.findElement(By.linkText("Job"));
+    			OBJQAL = Brow.findElement(By.linkText("Qualification"));
+    			OBJSKL = Brow.findElement(By.linkText("Skills"));
     			
     			if(OBJCOM.isDisplayed()&&OBJJOB.isDisplayed()&&OBJQAL.isDisplayed()&&OBJSKL.isDisplayed())
     				
@@ -322,10 +375,10 @@ public class MS_BusinessFunctions
     			Act.moveToElement(OBJCOM).perform();;
     			
     			// Create objects for General, Locations, Company Structure, and Company Property		
-    			WebElement OBJGNL = Brow.findElement(By.linkText("General"));
-    			WebElement OBJLOC = Brow.findElement(By.linkText("Locations"));
-    			WebElement OBJCSTR = Brow.findElement(By.linkText("Company Structure"));
-    			WebElement OBJCPRO = Brow.findElement(By.linkText("Company Property"));
+    			OBJGNL = Brow.findElement(By.linkText("General"));
+    			OBJLOC = Brow.findElement(By.linkText("Locations"));
+    			OBJCSTR = Brow.findElement(By.linkText("Company Structure"));
+    			OBJCPRO = Brow.findElement(By.linkText("Company Property"));
 
     			// Verify General, Locations,Company Structure and Company Property		
     			if(OBJGNL.isDisplayed()&&OBJLOC.isDisplayed()&&OBJCSTR.isDisplayed()&&OBJCPRO.isDisplayed())
@@ -392,10 +445,10 @@ public class MS_BusinessFunctions
     				System.out.println("Location Name is not Displayed");
     			}
     			
-    			WebElement OBJSRH = Brow.findElement(By.xpath("html/body/div[1]/div[2]/form/div[2]/input[2]"));
-    			WebElement OBJRST = Brow.findElement(By.xpath("html/body/div[1]/div[2]/form/div[2]/input[3]"));
-    			WebElement OBJADD = Brow.findElement(By.xpath("//input[@value='Add']"));
-    			WebElement OBJDLT = Brow.findElement(By.xpath("//input[@value='Delete']"));
+    			OBJSRH = Brow.findElement(By.xpath("html/body/div[1]/div[2]/form/div[2]/input[2]"));
+    			OBJRST = Brow.findElement(By.xpath("html/body/div[1]/div[2]/form/div[2]/input[3]"));
+    			OBJADD = Brow.findElement(By.xpath("//input[@value='Add']"));
+    			OBJDLT = Brow.findElement(By.xpath("//input[@value='Delete']"));
     			
     			if(OBJSRH.isDisplayed())
     			{
@@ -463,7 +516,7 @@ public class MS_BusinessFunctions
     			}
     			
     			// Create object for save		
-    			WebElement OBJSAVE = Brow.findElement(By.id("editBtn"));
+    			OBJSAVE = Brow.findElement(By.id("editBtn"));
     			
     			OBJSAVE.click();
     			
@@ -484,10 +537,10 @@ public class MS_BusinessFunctions
     			// Alert Accept is for OK button		
     			A.accept();
     			
-    			String LCNAME = "Hemanth";
+    			 LCNAME = "Hemanth";
     			
     			// Enter name		
-    			WebElement OBJLNAME = Brow.findElement(By.name("txtLocDescription"));
+    			OBJLNAME = Brow.findElement(By.name("txtLocDescription"));
     			OBJLNAME.clear();
     			OBJLNAME.sendKeys(LCNAME);
     			OBJSAVE.click();
@@ -508,8 +561,8 @@ public class MS_BusinessFunctions
     			Thread.sleep(2000);
     			
     			// Select Country		
-    			WebElement OBJCNTR = Brow.findElement(By.id("cmbCountry"));
-    			Select SCNTR = new Select(OBJCNTR);
+    			OBJCNTR = Brow.findElement(By.id("cmbCountry"));
+    			SCNTR = new Select(OBJCNTR);
     			SCNTR.selectByVisibleText("India");
     			OBJSAVE.click();
     			
@@ -599,7 +652,7 @@ public class MS_BusinessFunctions
     			{
     				// Get location name info details
     				
-    				String LNAME = Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).getText();
+    				LNAME = Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).getText();
     			
     			if(LNAME.equals(LCNAME))
     			  {
@@ -608,7 +661,7 @@ public class MS_BusinessFunctions
     			
 
 
-    			Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).click();
+    			//Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).click();
     			
     			}
 	}
@@ -643,7 +696,7 @@ public class MS_BusinessFunctions
 
     			// update with new name		
     					
-    					String NEWNAME = "Hemanth Kumar";
+    					 NEWNAME = "Hemanth Kumar";
     					OBJLNAME1.sendKeys(NEWNAME);
     			// Click on save button
     					
@@ -694,7 +747,7 @@ public class MS_BusinessFunctions
 	
 				// Verify succefu delete message
 				
-				String OBJMSG = Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/div[2]/span")).getText();
+				 OBJMSG = Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/div[2]/span")).getText();
 				if(OBJMSG.equals("Successfully Deleted"))
 				{
 					System.out.println("Successfully Deleted is Displayed");
@@ -727,10 +780,6 @@ public class MS_BusinessFunctions
     			
     			}
     	
-    	
-    			
-    			
-    			
     			// ======================================== Multiple Delete Location =================================================================
 
     			
@@ -790,7 +839,7 @@ public class MS_BusinessFunctions
     			// S.No 3  -  Focus on Admin=================================================================================================
     				
     			Brow.navigate().refresh();
-  				WebElement OBJADM = Brow.findElement(By.id("admin"));
+  				OBJADM = Brow.findElement(By.id("admin"));
   				if(OBJADM.isDisplayed())
   				{
   					System.out.println("Admin is Displayed");
@@ -805,10 +854,10 @@ public class MS_BusinessFunctions
   				Act.moveToElement(OBJADM).perform();
   				
   				//Creat objects for Company info, Job, Qualifications, Skills .. Etc		
-  				WebElement OBJCOM = Brow.findElement(By.linkText("Company Info"));
-  				WebElement OBJJOB = Brow.findElement(By.linkText("Job"));
-  				WebElement OBJQAL = Brow.findElement(By.linkText("Qualification"));
-  				WebElement OBJSKL = Brow.findElement(By.linkText("Skills"));
+                OBJCOM = Brow.findElement(By.linkText("Company Info"));
+  				OBJJOB = Brow.findElement(By.linkText("Job"));
+  				OBJQAL = Brow.findElement(By.linkText("Qualification"));
+  				OBJSKL = Brow.findElement(By.linkText("Skills"));
   				
   				if(OBJCOM.isDisplayed()&&OBJJOB.isDisplayed()&&OBJQAL.isDisplayed()&&OBJSKL.isDisplayed())
   					
@@ -824,7 +873,7 @@ public class MS_BusinessFunctions
   // S.No 4 -  Focus on Job==========================================================================================================	
   				
   				//Driver.navigate().refresh();
-  				WebElement OBJJOB1 = Brow.findElement(By.linkText("Job"));
+  				OBJJOB1 = Brow.findElement(By.linkText("Job"));
   				if(OBJJOB1.isDisplayed())
   				{
   					System.out.println("Job is Displayed");
@@ -839,11 +888,11 @@ public class MS_BusinessFunctions
   				Act.moveToElement(OBJJOB1).perform();
   				
   				// Create objects for Job Titls, Job Specifications, Pay Grade, Employment Status, EEO Job Categaries===============
-  				WebElement OBJJTTL = Brow.findElement(By.linkText("Job Titles"));
-  				WebElement OBJJSPC = Brow.findElement(By.linkText("Job Specifications"));
-  				WebElement OBJJPAYG = Brow.findElement(By.linkText("Pay Grades"));
-  				WebElement OBJJEMST = Brow.findElement(By.linkText("Employment Status"));
-  				WebElement OBJJEOJC = Brow.findElement(By.linkText("EEO Job Categories"));
+  				OBJJTTL = Brow.findElement(By.linkText("Job Titles"));
+  				OBJJSPC = Brow.findElement(By.linkText("Job Specifications"));
+  				OBJJPAYG = Brow.findElement(By.linkText("Pay Grades"));
+  				OBJJEMST = Brow.findElement(By.linkText("Employment Status"));
+  				OBJJEOJC = Brow.findElement(By.linkText("EEO Job Categories"));
   				
   				if(OBJJTTL.isDisplayed()&&OBJJSPC.isDisplayed()&&OBJJPAYG.isDisplayed()&&OBJJEMST.isDisplayed()&&OBJJEOJC.isDisplayed())
   				{
@@ -887,8 +936,8 @@ public class MS_BusinessFunctions
   				
   				// Create web elements
   				
-  				WebElement OBJSDROP = Brow.findElement(By.name("loc_code"));
-  				WebElement OBJSFOR = Brow.findElement(By.name("loc_name"));
+  				 OBJSDROP = Brow.findElement(By.name("loc_code"));
+  				 OBJSFOR = Brow.findElement(By.name("loc_name"));
   				
   				if(OBJSDROP.isDisplayed()&&OBJSFOR.isDisplayed())
   				{
@@ -900,10 +949,10 @@ public class MS_BusinessFunctions
   				return;
   				}
   				
-  				WebElement OBJSRH = Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/div[2]/input[2]"));
-  				WebElement OBJRST = Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/div[2]/input[3]"));
-  				WebElement OBJADD = Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/div[3]/div[1]/input[1]"));
-  				WebElement OBJDLT = Brow.findElement(By.xpath("//html/body/div/div[2]/form/div[3]/div[1]/input[2]"));
+  				 OBJSRH = Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/div[2]/input[2]"));
+  				 OBJRST = Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/div[2]/input[3]"));
+  				 OBJADD = Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/div[3]/div[1]/input[1]"));
+  				 OBJDLT = Brow.findElement(By.xpath("//html/body/div/div[2]/form/div[3]/div[1]/input[2]"));
   				
   				if(OBJSRH.isDisplayed()&&OBJRST.isDisplayed()&&OBJADD.isDisplayed()&&OBJDLT.isDisplayed())
   				{
@@ -937,13 +986,13 @@ public class MS_BusinessFunctions
   				
   				
   				// click save button
-  					WebElement OBJSAVE = Driver.findElement(By.xpath("//*[@id='frmJobTitle']/div[2]/input[1]"));
+  					OBJSAVE = Brow.findElement(By.xpath("//*[@id='frmJobTitle']/div[2]/input[1]"));
   					OBJSAVE.click();
   					Thread.sleep(2000);
   					
   				// Verify alerts
   					
-  					Alert A = Driver.switchTo().alert();
+  					Alert A = Brow.switchTo().alert();
   					if(A.getText().equals("Job Title Name should be specified"))
   					{
   						System.out.println("Alert is displayed as 'Job Title Name should be specified'");
@@ -960,11 +1009,11 @@ public class MS_BusinessFunctions
   					
   				// Create web elements for job title name and job description
   					
-  					WebElement OBJJTN = Driver.findElement(By.name("txtJobTitleName"));
-  					WebElement OBJJDIS = Driver.findElement(By.name("txtJobTitleDesc"));
+  					 OBJJTN = Brow.findElement(By.name("txtJobTitleName"));
+  					 OBJJDIS = Brow.findElement(By.name("txtJobTitleDesc"));
   					
-  					String JTN = "Software Test Engineer";
-  					String JDIS = "Automation in Selenium Domain";
+  					 JTN = "Software Test Engineer";
+  					 JDIS = "Automation in Selenium Domain";
   					
   					OBJJTN.clear();
   					OBJJTN.sendKeys(JTN);
@@ -1033,17 +1082,17 @@ public class MS_BusinessFunctions
   				// S.No 10  -  Edit employee status details and other info and click on save					
 					
   					// Create webelement for EDIT					
-  						WebElement OBJEDIT = Driver.findElement(By.xpath("//input[@id='editBtn']"));
+  						WebElement OBJEDIT = Brow.findElement(By.xpath("//input[@id='editBtn']"));
   						OBJEDIT.click();
   						
   					// Click on Edit Employment Status
   						
   						Select S = new Select(OBJRDRP);
   						S.selectByVisibleText("Full Time Contract");
-  						Driver.findElement(By.xpath("//*[@id='frmJobTitle']/div[1]/input[1]")).click();
+  						Brow.findElement(By.xpath("//*[@id='frmJobTitle']/div[1]/input[1]")).click();
   						Thread.sleep(3000);
   						
-  						WebElement OBJFTP = Driver.findElement(By.xpath("//*[@id='cmbAssEmploymentStatus']/option[2]"));
+  						WebElement OBJFTP = Brow.findElement(By.xpath("//*[@id='cmbAssEmploymentStatus']/option[2]"));
   						if(OBJFTP.isDisplayed())
   						{
   							System.out.println("Full Time Permanent is Added and Displayed");
@@ -1054,14 +1103,14 @@ public class MS_BusinessFunctions
   						}
   						
   				// Click on Save					
-  						WebElement OBJSAV1 = Driver.findElement(By.xpath("//*[@id='editBtn']"));
+  						WebElement OBJSAV1 = Brow.findElement(By.xpath("//*[@id='editBtn']"));
   						Thread.sleep(3000);
   						OBJSAV1.click();
   						Thread.sleep(3000);
   						
   				// Verification for Successfully Updated
   						
-  						if(Driver.findElement(By.xpath("//html/body/div[1]/div[2]/form/div[2]/span")).getText().equals("Successfully Updated"))
+  						if(Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/div[2]/span")).getText().equals("Successfully Updated"))
   						{
   							System.out.println("Successfully Updated is Displayed");
   						}
@@ -1071,7 +1120,7 @@ public class MS_BusinessFunctions
   						}
   						
   				//To get row count					
-  						int rc = Driver.findElements(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr")).size();
+  						int rc = Brow.findElements(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr")).size();
   						
   						System.out.println(rc);
   						
@@ -1083,7 +1132,7 @@ public class MS_BusinessFunctions
   						{
   							// Get location name info details
   							
-  							String OBJJTN1 = Driver.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).getText();
+  							String OBJJTN1 = Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).getText();
   						
   						if(OBJJTN1.equals(JTN))
   						  {
@@ -1092,7 +1141,7 @@ public class MS_BusinessFunctions
   						
 
 
-  						Driver.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).click();
+  						Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).click();
   						
   						}
   						
@@ -1100,13 +1149,13 @@ public class MS_BusinessFunctions
   						
   						// select row count
   				           
-  				           int rc2=Driver.findElements(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr")).size();
+  				           int rc2=Brow.findElements(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr")).size();
   				           int j;
   				           // LOOP
   				           
   				           for( j=rc;j<=rc2;j++)
   				           {
-  				                   String JTNAME=Driver.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+j+"]/td[3]/a")).getText();
+  				                   String JTNAME=Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+j+"]/td[3]/a")).getText();
   				                   if(JTNAME.equals(JTN))
   				                   {
   				                   System.out.println(JTN+" DISPLAYED AT :"+i);
@@ -1115,25 +1164,69 @@ public class MS_BusinessFunctions
   				                   {
   				                   System.out.println(JTN +"IS NOT DISPLAYED ");
   				                   }
+  				                   
+  				           }
+  				}
   				               
   				                
   				               //----------------TEST CASE - 10 ---  EDIT JOB TITLE---------------------------------//
   				               
   				                 public void EDIT_JOB_TITLE() throws FileNotFoundException, IOException, Exception
    				  				{  
-  				                   
-  				               Driver.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).click();
+  				                	//To get row count					
+  			  						int rc = Brow.findElements(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr")).size();
+  			  						
+  			  						System.out.println(rc);
+  			  						
+  			  						int i;
+  			  						
+  			  				// Loop for selecting row count
+  			  						
+  			  						for(i=rc;i<=rc;i++)
+  			  						{
+  			  							// Get location name info details
+  			  							
+  			  							String OBJJTN1 = Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).getText();
+  			  						
+  			  						if(OBJJTN1.equals(JTN))
+  			  						  {
+  			  							System.out.println(JTN+"Displayed at:"+i);
+  			  						  }
+  			  						
+
+
+  			  						Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).click();
+  			  						
+  			  						}
+  				                	int rc2=Brow.findElements(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr")).size();
+  		  				           int j;
+  		  				           // LOOP
+  		  				           
+  		  				           for( j=rc;j<=rc2;j++)
+  		  				           {
+  		  				                   String JTNAME=Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+j+"]/td[3]/a")).getText();
+  		  				                   if(JTNAME.equals(JTN))
+  		  				                   {
+  		  				                   System.out.println(JTN+" DISPLAYED AT :"+i);
+  		  				                   }
+  		  				                   else
+  		  				                   {
+  		  				                   System.out.println(JTN +"IS NOT DISPLAYED ");
+  		  				                   }
+  		  				                   
+  		  				           }
+  				                	Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).click();
   				               
-  				           }
+  				           
   				           
   				         Thread.sleep(2000);
   				        // CREATE WEB ELEMENT FOR EDIT
-  				          WebElement OBJEDIT1=Driver.findElement(By.xpath("//input[@id='editBtn']"));
-  				         OBJEDIT1.click();
+  				       OBJEDIT2=Brow.findElement(By.xpath("//input[@id='editBtn']"));
+  				     OBJEDIT2.click();
   				         Thread.sleep(2000);
   				         
   				        // AGAIN VERIFY Job : Job Title 
-  				             if(Driver.findElement(By.xpath("//div[@class='mainHeading']/h2")).getText().equals("Job : Job Title"))
+  				             if(Brow.findElement(By.xpath("//div[@class='mainHeading']/h2")).getText().equals("Job : Job Title"))
   				             {
   				           System.out.println("Job : Job Title is AGAIN  displayed");
   				             }
@@ -1142,7 +1235,7 @@ public class MS_BusinessFunctions
   				                 System.out.println("Job : Job Title is  not displayed AGAIN");
   				             }
   				             //EDIT JOB TITLE NAME
-  				             WebElement OBJJTN1=Driver.findElement(By.xpath("//*[@id='txtJobTitleName']"));
+  				             WebElement OBJJTN1=Brow.findElement(By.xpath("//*[@id='txtJobTitleName']"));
   				             String JTN2="TEST ENGINEER";
   				             
   				             OBJJTN1.clear();
@@ -1170,12 +1263,12 @@ public class MS_BusinessFunctions
   				                 Thread.sleep(2000);*/
   				                 
   				                 // CLICK ON SAVE
-  				                 Driver.findElement(By.xpath("//*[@id='editBtn']")).click();
+  				               Brow.findElement(By.xpath("//*[@id='editBtn']")).click();
   				                Thread.sleep(2000);
   				                
 
   				                // verification sucess fully updated or not
-  				                if(Driver.findElement(By.xpath("html/body/div[1]/div[2]/form/div[2]/span")).getText().equals("Successfully Updated"))
+  				                if(Brow.findElement(By.xpath("html/body/div[1]/div[2]/form/div[2]/span")).getText().equals("Successfully Updated"))
   				                {
   				                    System.out.println("Successfully Updated is displayed 2");
   				                }
@@ -1189,7 +1282,7 @@ public class MS_BusinessFunctions
   				                
   				                for(int j2=rc;j2<=rc;j2++)
   				                  {
-  				                      String JTNAME1=Driver.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+j2+"]/td[3]/a")).getText();
+  				                      String JTNAME1=Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+j2+"]/td[3]/a")).getText();
   				                      if(JTNAME1.equals(JTN2))
   				                      {
   				                          System.out.println(JTN2+" DISPLAYED AT :"+j2);
@@ -1199,19 +1292,19 @@ public class MS_BusinessFunctions
   				                          System.out.println(JTN2 +"IS NOT DISPLAYED ");
   				                      }
   				                      
-  				                  }
-  				           }
+  				                 
   				}
+   				  				}
   				                //------------------------TEST CASE  - 11 JOBTITLE DELETION----------------------------------------//
   				                      
   				                    public void JOBTITLE_DELETION() throws FileNotFoundException, IOException, Exception
   	  				  				{
   				                      
-  				                Driver.findElement(By.xpath("html/body/div[1]/div[2]/form/table/tbody/tr["+j2+"]/td[1]/input")).click();
+  				                    	Brow.findElement(By.xpath("html/body/div[1]/div[2]/form/table/tbody/tr["+j2+"]/td[1]/input")).click();
   				               
-  				                  }
+  				               
   				                
-  				                Driver.findElement(By.xpath("//input[@value='Delete']")).click();
+  				                    	Brow.findElement(By.xpath("//input[@value='Delete']")).click();
   				                
   				                if(A.getText().equals("Deletion may affect Pay Grade of Employees in PIM. Do you want to delete ?"))
   				                {
@@ -1221,7 +1314,7 @@ public class MS_BusinessFunctions
   				                
   				            // VERIFY SUCESSFULLY DELETED OR NOT
   				                
-  				                if(Driver.findElement(By.xpath("//div[@class='messagebar']")).getText().equals("Successfully Deleted"))
+  				                if(Brow.findElement(By.xpath("//div[@class='messagebar']")).getText().equals("Successfully Deleted"))
   				                {
   				                    System.out.println(JTN2+" DELETED AT:"+i);
   				                }
@@ -1229,16 +1322,16 @@ public class MS_BusinessFunctions
   				                {
   				                    System.out.println("Successfully Deleted is not Displayed");
   				                }
-  				               Driver.switchTo().defaultContent();
+  				              Brow.switchTo().defaultContent();
   				               Thread.sleep(3000);
   				                // click on logout
   				                //OBJLOGOUT.click();
-  				               Driver.findElement(By.linkText("Logout")).click();
+  				             Brow.findElement(By.linkText("Logout")).click();
   				                
   				                // wait & verify home page is displayed or not
-  				               wait.until(ExpectedConditions.titleIs("OrangeHRM - New Level of HR Management"));
+  				               Wait.until(ExpectedConditions.titleIs("OrangeHRM - New Level of HR Management"));
   				               
-  				                if(Driver.getTitle().equals("OrangeHRM - New Level of HR Management"))
+  				                if(Brow.getTitle().equals("OrangeHRM - New Level of HR Management"))
   				                {
   				                    System.out.println("LOGOUT SUCESSFULL & HOME PAGE IS DISPLAYED");
   				                }
@@ -1250,13 +1343,963 @@ public class MS_BusinessFunctions
   					
   				}
     			  
-    			  
-    			  
+  		 public void JOB_SPECIFICATION_TEST_CASE() throws FileNotFoundException, IOException, Exception
+	  			{
+			WebElement OBJADM=Brow.findElement(By.id("admin"));
+			
+			if(OBJADM.isDisplayed())
+			{
+			 System.out.println("Admin is displayed");
+			}
+			else
+			{
+			 System.out.println("Admin is not Displayed");
+			 return;
+			}
+			
+			// MOUSE OVER
+			
+			Act.moveToElement(OBJADM).perform();
+			
+			// CREATE OBJECT FOR COMPANY INFO,JOBS,QUALIFICATIONS,SKILLS,ETC,
+			
+			WebElement OBJCOM=Brow.findElement(By.linkText("Company Info"));
+			WebElement OBJJOB=Brow.findElement(By.linkText("Job"));
+			WebElement OBJQAL=Brow.findElement(By.linkText("Qualification"));
+			WebElement OBJSKL=Brow.findElement(By.linkText("Skills"));
+			// VERIFY COMPANY INFO,JOBS,QUALIFICATIONS,SKILLS,ETC,
+			if(OBJCOM.isDisplayed()&&OBJJOB.isDisplayed() && OBJQAL.isDisplayed() && OBJSKL.isDisplayed())
+			{
+			 System.out.println("COMPANY INFO & JOB & QUALIFICATIONS & SKILLS ARE DISPLAYED");
+			 
+			}
+			else
+			{
+			 System.out.println("COMPANY INFO & JOB & QUALIFICATIONS & SKILLS ARE NOT DISPLAYED");
+			 return;
+			}
+			Act.moveToElement(OBJJOB).perform();
+			// CREATE WEBELEMENT OBJECTS 
+			/*
+			WebElement OBJJTTL=driver.findElement(By.xpath("//*[@id='admin']/ul/li[2]/ul/li[1]/a/span"));//getText().equals("Job Titles");
+			WebElement OBJJSPC=driver.findElement(By.xpath("//*[@id='admin']/ul/li[2]/ul/li[2]/a/span"));
+			WebElement OBJPAYG=driver.findElement(By.xpath("//*[@id='admin']/ul/li[2]/ul/li[3]/a/span"));
+			WebElement OBJEMST=driver.findElement(By.xpath("//*[@id='admin']/ul/li[2]/ul/li[4]/a/span"));
+			WebElement OBJEOJC=driver.findElement(By.xpath("//*[@id='admin']/ul/li[2]/ul/li[5]/a/span"));
+			
+			*/
+			WebElement OBJJTTL=Brow.findElement(By.linkText("Job Titles"));//getText().equals("Job Titles");
+			WebElement OBJJSPC=Brow.findElement(By.linkText("Job Specifications"));
+			WebElement OBJPAYG=Brow.findElement(By.linkText("Pay Grades"));
+			WebElement OBJEMST=Brow.findElement(By.linkText("Employment Status"));
+			WebElement OBJEOJC=Brow.findElement(By.linkText("EEO Job Categories"));
+			
+			
+			// VERIFY 
+			if(OBJJTTL.isDisplayed()&&OBJJSPC.isDisplayed()&&OBJPAYG.isDisplayed()&&OBJEMST.isDisplayed()&&OBJEOJC.isDisplayed())
+			{
+			    System.out.println(" 'Job Titles,Job Specifications,Pay Grades,Employment Status,EEO Job Categories' IS DISPLAYED  ");
+			}
+			else
+			{
+			    System.out.println(" 'Job Titles,Job Specifications,Pay Grades,Employment Status,EEO Job Categories' IS NOT DISPLAYED  ");
+			}
+			Thread.sleep(2000);
+			// click on job Specifications
+			Act.moveToElement(OBJJSPC).click().perform(); 
+			
+			// WAIT FOR FRAME AND SWITCH TO IT
+			
+			Wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt("rightMenu"));
+			Thread.sleep(2000);
+			//--------------VERIFY JOB AND JOB SPECIFICATIONS IS DISPLAYED OR NOT
+			
+			WebElement WEJJS=Brow.findElement(By.cssSelector(".mainHeading>h2"));
+			if(WEJJS.getText().equals("Job : Job Specifications"))
+			{
+			    System.out.println("Job : Job Specifications is displayed1");
+			}
+			else
+			{
+			    System.out.println("Job : Job Specifications is not displayed");
+			}
+
+//     CREATE WEB ELEMENTS FOR INPUT FIELDS AND BUTTONS
+
+          WebElement OBJSBY=Brow.findElement(By.name("loc_code"));
+        WebElement OBJSFR=Brow.findElement(By.name("loc_name"));
+        WebElement OBJSRH=Brow.findElement(By.xpath("//input[@value='Search']"));
+        WebElement OBJRST=Brow.findElement(By.xpath("//input[@value='Reset']"));
+        WebElement OBJADD=Brow.findElement(By.xpath("//input[@value='Add']"));
+        WebElement OBJDLT=Brow.findElement(By.xpath("//input[@value='Delete']"));
+        
+//      VERIFY WEB ELEMENTS
+        if(OBJSBY.isDisplayed()&&OBJSFR.isDisplayed()&&OBJSRH.isDisplayed()&&OBJRST.isDisplayed()&&OBJADD.isDisplayed()&&OBJDLT.isDisplayed())
+        {
+            System.out.println("SEARCH ,SEARCH FOR,SEARCH,RESET,ADD,DELETE BUTTONS ARE DISPLAYED");
+        }
+        else
+        {
+            System.out.println("SEARCH ,SEARCH FOR,SEARCH,RESET,ADD,DELETE BUTTONS ARE NOT DISPLAYED");
+              
+        }
+        
+//         NOW CLICK ON ADD BUTTON
+        
+        OBJADD.click();
+        Thread.sleep(1000);
+        
+//        CHECK and VERIFY JOB SPECIFICATION 
+        WebElement WEJJS1=Brow.findElement(By.cssSelector(".mainHeading>h2"));
+        
+       if( WEJJS1.getText().equals("Job : Job Specifications"))
+       {
+           System.out.println("Job : Job Specifications is displayed2");
+       }
+       else
+       {
+           System.out.println("Job : Job Specifications is not displayed2");
+              
+       }
+       
+//      CREATE STRING AND ENTER DATA
+        String NAME="SOFTWARE1";
+        String DESCR="TEST ENGINERR AT QAPLANET";
+//        CREATE WEB ELEMENT FOR NAME AND DESCRIPTION
+        WebElement OBJNAME=Brow.findElement(By.name("txtFieldName"));
+        WebElement OBJDESCR=Brow.findElement(By.name("txtDesc"));
+        WebElement OBJSAV=Brow.findElement(By.id("editBtn"));
+        
+//        VERIFY WEBELEMENTS NAME,DESCRIPTION,SAVE 
+        if(OBJNAME.isDisplayed()&&OBJDESCR.isDisplayed()&&OBJSAV.isDisplayed())
+          {
+              System.out.println("NAME,DESCRIPTION AND SAVE BUTTON IS DISPLAYED");
+          }
+          else
+          {
+              System.out.println("NAME,DESCRIPTION AND SAVE BUTTON IS NOT DISPLAYED");
+              
+          }
+//        CLICK ON SAVE
+          OBJSAV.click();
+//        CREATE ALERT
+          Alert A=Brow.switchTo().alert();
+//        VERIFY ALERT
+          if(A.getText().equals("Please correct the following\n\n    - Please specify Job Specification name\n"))
+          {
+              System.out.println("Please specify Job Specification name\n is Displayed");
+          }
+          else
+          {
+              System.out.println("Please specify Job Specification name\n is Displayed");
+          }
+          A.accept();
+
+          Thread.sleep(1000);
+
+          //        TYPE DATA OR SEND DATA
+        OBJNAME.clear();
+        OBJNAME.sendKeys(NAME);
+        OBJDESCR.clear();
+        OBJDESCR.sendKeys(DESCR);
+//        CLICK ON SAVE
+        OBJSAV.click();
+/*
+//           VERIFY ALERT 2
+          if(A.getText().equals("Please correct the following\n\n    - This name is in use\n"))
+          {
+              System.out.println("- This name is in use\n is Displayed");
+          }
+          else
+          {
+              System.out.println("PThis name is in use\n is not Displayed");
+          }
+          A.accept();     */
+        Thread.sleep(2000);
+
+//        CHECK and VERIFY JOB SPECIFICATION 
+        
+        WebElement WEJJS2=Brow.findElement(By.cssSelector(".mainHeading>h2"));
+        
+        
+        if( WEJJS2.getText().equals("Job : Job Specifications"))
+        {
+            System.out.println("Job : Job Specifications is displayed2");
+        }
+        else
+        {
+            System.out.println("Job : Job Specifications is not displayed2");
+               
+        }
+
+//        CHECK AND VERIFY SUCESSFULLY ADDED OR NOT
+        if(Brow.findElement(By.xpath("//span[@class='success']")).getText().equals("Successfully Added"))
+        {
+            System.out.println("Successfully Added is displayed");
+        }
+        else
+        {
+            System.out.println("Successfully Added is not displayed");
+        
+          }
+//        SELECT ROW COUNT
+        int rc=Brow.findElements(By.xpath("html/body/div[1]/div[2]/form/table/tbody/tr")).size();
+        int i;
+        
+//        LOOP 1
+        for(i=rc;i<=rc;i++)
+        {
+            String NAME1=Brow.findElement(By.xpath("html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).getText();
+//        VERIFY           
+        if(NAME1.equals(NAME))
+          {
+            System.out.println(NAME+" DISPLAYED AT: "+i);
+          }
+           else
+            {
+            System.out.println(NAME+" IS NOT DISPLAYED");
+            }
+        
+        }
+	  			}
     	
+        //-----------------------EDIT JOB SPECIFICATION TEST CASE 13-------------------------
+        
+        public void EDIT_JOB_SPECIFICATION_TEST_CASE() throws FileNotFoundException, IOException, Exception
+				{
+            
+        
+        	Brow.findElement(By.xpath("html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).click();
+         
+        Thread.sleep(2000);
+        
+//           CLICK ON EDIT BUTTON
+        Brow.findElement(By.xpath("//*[@id='editBtn']")).click();
+        Thread.sleep(1000);
+        
+//             CLEAR AND SEND DATA
+        String NAM1="SOFTWARE ENGINEER";          
+      WebElement WENAM1 = Brow.findElement(By.name("txtFieldName"));
+        WENAM1.clear();
+        WENAM1.sendKeys(NAM1);
+
+//            CLICK ON SAVE
+        
+        Brow.findElement(By.id("editBtn")).click();
+
+        Thread.sleep(2000);
+//        CHECK and VERIFY JOB SPECIFICATION 
+                    
+        WebElement WEJJS3=Brow.findElement(By.cssSelector(".mainHeading>h2"));
+                                
+                    if( WEJJS3.getText().equals("Job : Job Specifications"))
+                    {
+                        System.out.println("Job : Job Specifications is displayed3");
+                    }
+                    else
+                    {
+                        System.out.println("Job : Job Specifications is not displayed3");
+                           
+                    }
+                    Thread.sleep(1000);
+//        CHECK AND VERIFY SUCESSFULLY ADDED OR NOT
+                    if(Brow.findElement(By.xpath("//div[@class='messagebar']/span")).getText().equals("Successfully Updated"))
+                    {
+                        System.out.println("Successfully Updated is displayed");
+                    }
+                    else
+                    {
+                        System.out.println("Successfully Updated is not displayed");
+                    
+                      }
+                    Thread.sleep(1000);
+                    
+                    
+                  //-----------------------------------TEST CASE 14 DELETE JOB SPECIFICATION
+         		   //         LOOP 2
+         		                  int j;
+         		                  for( j=rc;j<=rc;j++)
+         		                    {
+         		                        String NAME2=Brow.findElement(By.xpath("html/body/div[1]/div[2]/form/table/tbody/tr["+j+"]/td[3]/a")).getText();
+         		  //        VERIFY           
+         		                        if(NAME2.equals(NAM1))
+         		                           {
+         		                             System.out.println(NAM1+" DISPLAYED AT: "+j);
+         		                            }
+         		                           else
+         		                        {
+         		                          System.out.println(NAM1+" IS NOT DISPLAYED");
+         		                        }
+         		   //         CHECK BOX SELECT AND CLICK
+         		                       Brow.findElement(By.xpath("/html/body/div[1]/div[2]/form/table/tbody/tr["+j+"]/td[1]/input")).click(); 
+         		                          }
+         		    //        CLICK ON DELETE
+         		                 Brow.findElement(By.xpath("//input[@value='Delete']")).click();
+         		    //      VERIFY AND ACCEPT ALERT
+         		                  if(A.getText().equals("Deletion might affect employee information. Do you want to delete ?"))
+         		                  {
+         		                      System.out.println("Deletion might affect employee information. Do you want to delete ? is DISPLAYED");
+         		                  }
+         		                  else
+         		                  {
+         		                      System.out.println("Deletion might affect employee information. Do you want to delete ? is NOT DISPLAYED");
+         		                  }
+         		                  A.accept();
+         		                  Thread.sleep(2000);
+         		    //       CHECK SUCESS FULLY DELETED OR NOT
+         		                 if(Brow.findElement(By.cssSelector(".success")).getText().equals("Successfully Deleted"))
+         		                 {
+         		                     System.out.println("Successfully Deleted is Displayed at:" +j);
+         		                 }
+         		                 else
+         		                 {
+         		                     System.out.println("Deletion Failed or Successfully Deleted is not displayed");
+         		                 }
+         		              
+         		   //       SWITCH TO DEFAULT FRAME
+         		                Brow.switchTo().defaultContent();
+         		                 Thread.sleep(3000);
+         		   // REFRESH PAGE
+         		                
+         		                Brow.navigate().refresh();
+         		                 
+         		    //       CLICK ON LOGOUT
+         		               
+         		               Brow.findElement(By.linkText("Logout")).click();
+         		              
+         		                 
+         		    //      WAIT AND VERIFY HOMPAGE DISPLAYED OR NOT
+         		                Wait.until(ExpectedConditions.titleIs("OrangeHRM - New Level of HR Management"));
+         		                
+         		                 if(Brow.getTitle().equals("OrangeHRM - New Level of HR Management"))
+         		                 {
+         		                     System.out.println("LOGOUT SUCESSFULL & HOME PAGE IS DISPLAYED");
+         		                 }
+         		                 else
+         		                 {
+         		                     System.out.println("FAILED TO OPEN HOME PAGE");
+         		                 }
+	  			}
+    	//QUALIFIFCATION TEST CASE
     	
-    	
-    	
-    	
+        
+        public void QUALIFIFCATION_TEST_CASE() throws FileNotFoundException, IOException, Exception
+		{
+        
+        
+        
+        // CREATE WEB ELEMENT FOR ADMIN
+        WebElement OBADMIN=Brow.findElement(By.id("admin"));
+        
+        // VERIFY
+        if(OBADMIN.isDisplayed())
+        {
+            System.out.println("ADMIN IS DISPLAYED");
+        }
+        else
+        {
+            System.out.println("ADMIN IS NOT DISPLAYED");
+        }
+        // ACTION COMMAND
+        Actions ACT=new Actions(Brow);
+        
+        // MOVE TO ELEMENT ON ADMIN
+        
+        ACT.moveToElement(OBADMIN).perform();
+        
+
+        // CREATE OBJECT FOR COMPANY INFO,JOBS,QUALIFICATIONS,SKILLS,ETC,
+
+          WebElement OBCOM=Brow.findElement(By.linkText("Company Info"));
+          WebElement OBJOB=Brow.findElement(By.linkText("Job"));
+          WebElement OBQAL=Brow.findElement(By.linkText("Qualification"));
+          WebElement OBSKL=Brow.findElement(By.linkText("Skills"));
+        
+          // VERIFY COMPANY INFO,JOBS,QUALIFICATIONS,SKILLS,ETC,
+          if(OBCOM.isDisplayed()&&OBJOB.isDisplayed() && OBQAL.isDisplayed() && OBSKL.isDisplayed())
+          {
+           System.out.println("COMPANY INFO & JOB & QUALIFICATIONS & SKILLS ARE DISPLAYED");
+           
+          }
+          else
+          {
+           System.out.println("COMPANY INFO & JOB & QUALIFICATIONS & SKILLS ARE NOT DISPLAYED");
+           return;
+          }
+          // MOVE TO ELEMENT ON QUALIFICATIONS
+          
+          ACT.moveToElement(OBQAL).perform();
+          
+          // CREATE WEBeLEMENT FOR EDUCATION,LICENCES
+        WebElement OBEDU=Brow.findElement(By.linkText("Education"));
+        WebElement OBLIC=Brow.findElement(By.linkText("Licenses"));
+        
+        // VERIFY 
+        
+        if(OBEDU.isDisplayed()&&OBLIC.isDisplayed())
+        {
+            System.out.println("EDUCATION,LICENCES ARE DISPLAYED");
+        }
+        else
+        {
+            System.out.println("EDUCATION,LICENCES ARE NOT DISPLAYED");
+        }
+        
+        Thread.sleep(2000);
+        // MOVE TO ELEMENT ON EDUCATION
+        ACT.moveToElement(OBEDU).click().perform();
+        
+        // WAIT FOR FRAME AND SWITCH TO IT
+        Wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt("rightMenu"));
+        Thread.sleep(2000);
+        
+        // VERIFY QUALIFICATION : EDUCATION
+        
+        WebElement WEQE=Brow.findElement(By.cssSelector(".mainHeading>h2"));
+        if(WEQE.getText().equals("Qualification : Education"))
+        {
+            System.out.println("Qualification : Education is Displayed 1 ");
+        }
+        else
+        {
+            System.out.println("Qualification : Education is Not Displayed 1");
+        }
+        
+         //     CREATE WEB ELEMENTS FOR INPUT FIELDS AND BUTTONS
+          
+          WebElement OBSBY=Brow.findElement(By.name("loc_code"));
+          WebElement OBSFR=Brow.findElement(By.name("loc_name"));
+          WebElement OBSRH=Brow.findElement(By.xpath("//input[@value='Search']"));
+          WebElement OBRST=Brow.findElement(By.xpath("//input[@value='Reset']"));
+          WebElement OBADD=Brow.findElement(By.xpath("//input[@value='Add']"));
+          WebElement OBDLT=Brow.findElement(By.xpath("//input[@value='Delete']"));
+          
+          //    VERIFY WEB ELEMENTS
+          
+          if(OBSBY.isDisplayed()&&OBSFR.isDisplayed()&&OBSRH.isDisplayed()&&OBRST.isDisplayed()&&OBADD.isDisplayed()&&OBDLT.isDisplayed())
+          {
+              System.out.println("SEARCH ,SEARCH FOR,SEARCH,RESET,ADD,DELETE BUTTONS ARE DISPLAYED");
+          }
+          else
+          {
+              System.out.println("SEARCH ,SEARCH FOR,SEARCH,RESET,ADD,DELETE BUTTONS ARE NOT DISPLAYED");
+                
+          }
+          
+          //     NOW CLICK ON ADD BUTTON
+          
+          OBADD.click();
+          Thread.sleep(3000);
+    
+        // VERIFY QUALIFICATION : EDUCATION
+              WebElement WEQE1=Brow.findElement(By.cssSelector(".mainHeading>h2"));
+            if(WEQE1.getText().equals("Qualification : Education"))
+            {
+                System.out.println("Qualification : Education is Displayed 2 ");
+            }
+            else
+            {
+                System.out.println("Qualification : Education is Not Displayed 2");
+            }
+            
+            String INST="QAPLANET";
+            String COURS="SOFTWARE TESTING";
+            
+        // CREATE WEBELEMENT FOR INSITUTE,COURSE, SAVE BUTTON
+            
+            WebElement OBINST=Brow.findElement(By.xpath("//input[@id='txtUni']"));
+            WebElement OBCOURS=Brow.findElement(By.xpath("//input[@id='txtDeg']"));
+            WebElement OBSAV=Brow.findElement(By.xpath("//input[@value='Save']"));
+            
+            
+            
+        // VERIFY ABOVE
+            
+            if(OBINST.isDisplayed()&&OBCOURS.isDisplayed()&&OBSAV.isDisplayed())
+            {
+                System.out.println("INSITUTE,COURSE, SAVE IS DISPLAYED");
+            }
+            else
+            {
+                System.out.println("INSITUTE,COURSE, SAVE IS NOT DISPLAYED");
+            }
+        //  CLICK ON SAVE
+            
+            OBSAV.click();
+            
+        // CREATE ALERT 
+            Alert A=Brow.switchTo().alert();
+        
+        // VERIFY ALERT TEXT
+            if(A.getText().equals("Please correct the following\n\n    - Institute Cannot be a Blank Value!\n    - Course Cannot be a Blank Value!\n"))
+            {
+                System.out.println("ENTER INSTITUTE & COURSE DETAILS ARE  DISPLAYED");
+            }
+            else
+            {
+                System.out.println("ENTER INSTITUTE & COURSE DETAILS ARE NOT DISPLAYED");
+            }
+            A.accept();
+        // SEND DATA
+            
+            OBINST.clear();
+            OBINST.sendKeys(INST);
+            
+        // CLICK ON SAVE 
+            Brow.findElement(By.xpath("//input[@value='Save']")).click();
+            
+        // VERIFY ALERT TEXT
+            
+            if(A.getText().equals("Please correct the following\n\n    - Course Cannot be a Blank Value!\n"))
+            {
+                System.out.println("ENTER COURSE DETAILS ARE  DISPLAYED");
+            }
+            else
+            {
+                System.out.println("ENTER COURSE DETAILS ARE NOT DISPLAYED");
+            }
+            A.accept();
+        
+            Thread.sleep(2000);
+        // SEND DATA TO COURSE
+            
+            OBCOURS.clear();
+            OBCOURS.sendKeys(COURS);
+        
+            Brow.findElement(By.xpath("//input[@value='Save']")).click();
+            Thread.sleep(2000);
+      //  VERIFY SUCESSFULLY ADDED  OR NOT
+            
+            if(Brow.findElement(By.xpath("//span[@class='success']")).getText().equals("Successfully Added"))
+            {
+                System.out.println("Successfully Added is Displayed");
+            }
+            else
+            {
+                System.out.println("Successfully Added is not Displayed");
+            }
+            
+        // ROW COUNT
+            int rc=Brow.findElements(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr")).size();
+            int i;
+            
+            
+        //     LOOP 1
+                for(i=rc;i<=rc;i++)
+                {
+                    String USN1=Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[4]")).getText();
+                    
+                    //VERIFY
+                    if(USN1.equals(INST))
+                    {
+                        System.out.println(INST+" DISPLAYED AT:"+i);
+                    }
+                    else
+                    {
+                        System.out.println(INST+" IS NOT DISPLAYED");
+                    }
+                    
+                }
+		}
+                
+              //-------------------------------EDIT QUALIFIFCATION TEST CASE 16---------------------------------------
+                
+                public void EDIT_QUALIFIFCATION_TEST_CASE() throws FileNotFoundException, IOException, Exception
+        		{
+                
+                
+              
+		        //     CLICK ON EDUCATION    
+                	Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+i+"]/td[3]/a")).click();
+		                    
+		                    
+		                    Thread.sleep(3000);
+		                
+		        //     VERIFY         
+
+		        //         VERIFY QUALIFICATION : EDUCATION
+		                      WebElement WEQE2=Brow.findElement(By.cssSelector(".mainHeading>h2"));
+		                    if(WEQE2.getText().equals("Qualification : Education"))
+		                    {
+		                        System.out.println("Qualification : Education is Displayed 3 ");
+		                    }
+		                    else
+		                    {
+		                        System.out.println("Qualification : Education is Not Displayed 3");
+		                    
+		                    }
+		                    Thread.sleep(2000);
+		        //      WEB ELEMENT FOR EDIT
+		                    WebElement OBEDIT=Brow.findElement(By.xpath("//input[@id='editBtn']"));
+		        //      VERIFY EDIT BUTTON
+		                    if(OBEDIT.isDisplayed())
+		                    {
+		                        System.out.println("EDIT BUTTON IS DISPLAYED");
+		                    }
+		                    else
+		                    {
+		                        System.out.println("EDIT BUTTON IS NOT DISPLAYED");
+		                
+		                    }
+		        //        CLICK ON EDIT 
+		                    Brow.findElement(By.xpath("//input[@id='editBtn']")).click();
+		                    
+		        //         TYPE DATA
+		                String INST1="QA ,planet";
+		                
+		                WebElement WEINST1=Brow.findElement(By.xpath("//input[@id='txtUni']"));
+
+		                    WEINST1.clear();
+		                    WEINST1.sendKeys(INST1);
+		                    
+		        //         CLICK ON SAVE
+		                    
+		                    Brow.findElement(By.xpath("//input[@value='Save']")).click();
+		                    Thread.sleep(2000);
+		    
+		        //         VERIFY SUCESS FULLY UPDATED OR NOT
+		                    if(Brow.findElement(By.xpath("//span[@class='success']")).getText().equals("Successfully Updated"))
+		                    {
+		                        System.out.println("Successfully Updated is Displayed");
+		                    }
+		                    else
+		                    {
+		                        System.out.println("Successfully Updated is not Displayed");
+		                    }        
+		                    Thread.sleep(2000);
+		       //                     LOOP 2
+		                    int j;
+		                    for(j=rc;j<=rc;j++)
+		                    {
+		                        String USN2=Brow.findElement(By.xpath("//html/body/div[1]/div[2]/form/table/tbody/tr["+j+"]/td[4]")).getText();
+		                        
+		                        //VERIFY
+		                        if(USN2.equals(INST1))
+		                        {
+		                            System.out.println(INST1+" DISPLAYED AT:"+j);
+		                        }
+		                        else
+		                        {
+		                            System.out.println(INST1+" IS NOT DISPLAYED");
+		                        }  
+                
+		                    }
+		}
+                
+                //-------------------------------DELETE QUALIFIFCATION TEST CASE 17---------------------------------------
+                
+		                    
+        public void DELETE_QUALIFIFCATION_TEST_CASE() throws FileNotFoundException, IOException, Exception
+		{  
+		                    
+		                    
+		    		      
+		                    //             CLICK ON EDUCATION    
+        	                   Brow.findElement(By.xpath("html/body/div[1]/div[2]/form/table/tbody/tr["+j+"]/td[1]/input")).click();
+		    		                        
+		    		                  
+		    		                    Thread.sleep(2000);
+		    		        //           CLICK ON DELETE
+		    		                    
+		    		                    Brow.findElement(By.xpath("//input[@value='Delete']")).click();
+		    		                
+		    		        //            VERIFY AND ACCEPT ALERT
+		    		                 if(A.getText().equals("Deletion might affect Education. Do you want to delete ?"))
+		    		                 {
+		    		                     System.out.println("Do you want to delete ? ALERT IS DISPLAYED");
+		    		                 }
+		    		                 else
+		    		                 {
+		    		                     System.out.println("Do you want to delete ?ALERT IS NOT DISPLAYED");
+		    		                 }
+		    		                 A.accept();
+		    		                 Thread.sleep(1000);
+		    		        //            VERIFY SUCESSFULLY DELETED OR NOT
+		    		                 if(Brow.findElement(By.xpath("//div[@class='messagebar']/span")).getText().equals("Successfully Deleted"))
+		    		                 {
+		    		                     System.out.println("Successfully Deleted IS DISPLAYED");
+		    		                 }
+		    		                 else
+		    		                     {
+		    		                     System.out.println("Successfully Deleted IS NOT DISPLAYED");
+		    		                     }
+		    		   //       SWITCH TO DEFAULT FRAME
+		    		                 Brow.switchTo().defaultContent();
+		    		                 Thread.sleep(3000);
+		    		   //       REFRESH PAGE
+                
+                               
+}
+                
+        public void Company_Structure_TEST_CASE() throws FileNotFoundException, IOException, Exception
+		{
+        
+     // S.No 3  -  Focus on Admin=================================================================================================
+		
+        	Brow.navigate().refresh();
+     		WebElement OBJADM = Brow.findElement(By.id("admin"));
+     		if(OBJADM.isDisplayed())
+     		{
+     			System.out.println("Admin is Displayed");
+     		}
+     		else
+     		{
+     			System.out.println("Admin is not Dispayed");
+     		
+     		return;
+     	    }
+     		// Mouse Over
+     		Act.moveToElement(OBJADM).perform();
+     		
+     		//Creat objects for Company info, Job, Qualifications, Skills .. Etc		
+     		WebElement OBJCOM = Brow.findElement(By.linkText("Company Info"));
+     		WebElement OBJJOB = Brow.findElement(By.linkText("Job"));
+     		WebElement OBJQAL = Brow.findElement(By.linkText("Qualification"));
+     		WebElement OBJSKL = Brow.findElement(By.linkText("Skills"));
+     		
+     		if(OBJCOM.isDisplayed()&&OBJJOB.isDisplayed()&&OBJQAL.isDisplayed()&&OBJSKL.isDisplayed())
+     			
+     		{
+     			System.out.println("Company information,Job,Qualification and Skills are displayed");
+     		}
+     		else
+     		{
+     			System.out.println("Company information,Job,Qualification and Skills are not displayed");
+     		return;	
+     		}
+     		
+     // S.No 4  -  Focus on Company info==========================================================================================	
+     		
+     		// Mouse Over		
+     		Act.moveToElement(OBJCOM).perform();;
+     		
+     		// Create objects for General, Locations, Company Structure, and Company Property		
+     		WebElement OBJGNL = Brow.findElement(By.linkText("General"));
+     		WebElement OBJLOC = Brow.findElement(By.linkText("Locations"));
+     		WebElement OBJCSTR = Brow.findElement(By.linkText("Company Structure"));
+     		WebElement OBJCPRO = Brow.findElement(By.linkText("Company Property"));
+
+     		// Verify General, Locations,Company Structure and Company Property		
+     		if(OBJGNL.isDisplayed()&&OBJLOC.isDisplayed()&&OBJCSTR.isDisplayed()&&OBJCPRO.isDisplayed())
+     		{
+     			System.out.println("General, Locations, Company Structure and Company Property are Displayed");
+     		}
+     		
+     		else
+     		{
+     			System.out.println("General, Locations, Company Structure and Company Property are Displayed");
+     		
+     		return;	
+     		}
+     		
+     		
+     // S.No 5  -  Click on Company Structure
+     		
+     		// Mouse Over and click		
+     				Act.moveToElement(OBJCSTR).click().perform();
+     				
+     		// Wait for frame and swich to				
+     				Wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt("rightMenu"));
+     				
+     		// Create webelement for Company Info : Company Structure				
+     				WebElement OBJCINFO = Brow.findElement(By.xpath("//*[@id='layerComStruct']/h2"));
+     				
+     		// verify
+     				if(OBJCINFO.getText().equals("Company Info : Company Structure"))
+     				{
+     					System.out.println("Company Info : Company Structure is Dispalyed");
+     				}
+     				else
+     				{
+     					System.out.println("Company Info : Company Structure is not Dispalyed");
+     				}
+     				
+     		// Verify sub division of QA planet	
+     				
+     				if(Brow.findElement(By.xpath("//*[@id='tblCompStruct']/tbody/tr[1]/td[1]")).getText().equals("QAPLANET"))
+     				{
+     					System.out.println("QAPLANET sub division is displayed");
+     				}
+     				else
+     				{
+     					System.out.println("QAPLANET sub division is not displayed");
+     				}
+     				
+     // S. No 6  -  Click on Add ============================================================================================
+     				
+     				Brow.findElement(By.xpath("//a[@class='add']")).click();
+     				Thread.sleep(1000);
+     				
+     				// Verify Add a sub-division to QAPLANET
+     				
+     				if(Brow.findElement(By.xpath("//h3[@id='parnt']")).getText().equals("Add a sub-division to QAPLANET"))
+     				{
+     					System.out.println("Add a sub-division to QAPLANET is Displyed");
+     				}
+     				else
+     				{
+     					System.out.println("Add a sub-division to QAPLANET is not Displyed");
+     				}
+     				
+     // S.No 7  -  Enter Department ID,Name,Type,Location and description and click on save ===================================
+     				
+     				// Create webelements for Department ID,Name,Type,Location and description and click on save
+     				
+     				String DPTID = "QA Planet";
+     				String NAME = "Hemanth";
+     				
+     				WebElement OBJDPTID = Brow.findElement(By.name("txtDeptId"));
+     				WebElement OBJNAME = Brow.findElement(By.name("txtTitle"));
+     				WebElement OBJTYPE = Brow.findElement(By.name("cmbType"));
+     				WebElement OBJLOC1 = Brow.findElement(By.name("cmbLocation"));
+     				WebElement OBJDESC = Brow.findElement(By.name("txtDesc"));
+     				
+     				// Verify above
+     				
+     				if(OBJDPTID.isDisplayed()&&OBJNAME.isDisplayed()&&OBJTYPE.isDisplayed()&&OBJLOC1.isDisplayed()&&OBJDESC.isDisplayed())
+     				{
+     					System.out.println("Department ID,Name,Type,Location and description - are displayed");
+     				}
+     				else
+     				{
+     					System.out.println("Department ID,Name,Type,Location and description - are not displayed");
+     				}
+     				
+     				Select STYPE=new Select(OBJTYPE);
+     		           
+     		           OBJDPTID.clear();
+     		           OBJDPTID.sendKeys(DPTID);
+     		           // CLICK ON SAVE
+     		          Brow.findElement(By.xpath("//input[@value='Save']")).click();
+     		           Thread.sleep(1000);
+     		          // CREATE ALERT
+     		           
+     		           Alert A=Brow.switchTo().alert();
+     		           
+     		           // VERIFY ALERT
+     		           if(A.getText().equals("Following errors were found:\n\n- Sub-division Name cannot be empty.\n- Please select a Type or define a custom type.\n"))
+     		          {
+     		          System.out.println("ALERT MESSAGE IS DISPLAYED");
+     		          }
+     		           A.accept();
+     		           Thread.sleep(1000);
+     		           
+     		           OBJNAME.clear();
+     		           OBJNAME.sendKeys(NAME);
+     		           STYPE.selectByVisibleText("Department");
+     		           Thread.sleep(1000);
+     		           Select SLOC=new Select(OBJLOC1);
+     		           
+     		           
+     		           SLOC.selectByVisibleText("Ameerpet");
+     		           
+     		          Brow.findElement(By.id("txtDesc")).sendKeys("Add");
+     		           
+     		           // CLICK ON SAVE
+     		         Brow.findElement(By.xpath("//input[@value='Save']")).click();
+     		           Thread.sleep(3000);
+     		           
+     		           
+     		           //*********************************************************************************************************************
+     		           
+     		           
+     		           // ROW COUNT
+     		           
+     		           // List<WebElement> LIST1=driver.findElements(By.xpath("//html/body/div[1]/table/tbody/tr/td/a"));
+     		     
+     		     /*     int rc=driver.findElements(By.xpath("//html/body/div[1]/table/tbody/tr")).size();
+     		          System.out.println(rc);
+     		          int i;
+     		            
+     		            for(i=rc;i<=rc;i++)
+     		            //for(int i: LIST1)
+     		          System.out.println(i);
+     		       
+     		     {
+     		     String[] ARR1=DPTID.split(NAME);
+     		         //  String DPTID1=driver.findElement(By.xpath("html/body/div[1]/table/tbody/tr["+i+"]/td[1]")).getText();
+     		         // String NAM=driver.findElement(By.xpath("html/body/div[1]/table/tbody/tr["+i+"]/td[1]/a")).getText();
+     		           if(ARR1[i].equals(DPTID))
+     		           {
+     		           System.out.println(DPTID+" DISPLAYED");
+     		           }
+     		         //  if(DPTID1.equals(DPTID)&&NAM.equals(NAME))
+     		          
+     		         //   if(NAM.equals(NAME))
+     		         //   {
+     		           System.out.println(NAME+" DISPLAYED AT: "+i);
+     		           
+     		         //   }
+     		           //else
+     		           //{
+     		         //  System.out.println(NAM);
+     		          // }
+     		         //  driver.findElement(By.xpath("//html/body/div[1]/table/tbody/tr["+i+"]/td[1]/a")).click();
+     		        
+     		     }
+     		            
+     		            
+     		       */   
+		}
+                
+  
+     		          public void EDIT_Company_Structure() throws FileNotFoundException, IOException, Exception
+     	        		{
+     		           
+     		          // EDIT TC19
+   		            int rc=Brow.findElements(By.xpath("//html/body/div[1]/table/tbody/tr")).size();
+   		            for(int i=rc;i<=rc;i++)
+   		            {
+   		            	Brow.findElement(By.xpath("//html/body/div[1]/table/tbody/tr["+i+"]/td[1]/a")).click();
+   		            
+   		            
+   		            }
+   		            Thread.sleep(2000);
+   		            
+   		            // VERIFY Add a sub-division to QA Planet
+   		               if(Brow.findElement(By.xpath("//h3[@id='parnt']")).getText().equals("Add a sub-division to QAPLANET"))
+   		               {
+   		               System.out.println("Add a sub-division to QA Planet IS DISPLAYED");
+   		               }
+   		               else
+   		               {
+   		               System.out.println("Add a sub-division to QA Planet IS NOT DISPLAYED");
+   		               
+   		               }
+   		            
+   		            // SEND DATA 
+   		            
+   		            Brow.findElement(By.name("txtTitle")).clear();
+   		         Brow.findElement(By.name("txtTitle")).sendKeys("POWER");
+   		            
+   		            // click on save
+   		            
+   		      Brow.findElement(By.xpath("//input[@value='Save']")).click();
+   		            Thread.sleep(2000);
+   		            
+   		         
+   		            for(int j=rc;j<=rc;j++)
+   		            {
+   		         //   driver.findElement(By.xpath("//html/body/div[1]/table/tbody/tr["+i+"]/td[1]/a")).click();
+   		            	Brow.findElement(By.xpath("//html/body/div[1]/table/tbody/tr["+j+"]/td[4]/a")).click();
+   		            System.out.println(rc);
+   		            }
+   		            Thread.sleep(2000);
+   		            
+   		            if(A.getText().equals("Are you sure you want to delete POWER Department. It could cause the company structure to change."))
+   		            {
+   		           System.out.println("DELETE ALERT IS DISPLAYED");
+   		           A.accept();
+   		            }
+   		            else
+   		            {
+   		           System.out.println("DELETE ALERT IS NOT DISPLAYED");
+   		            }
+   		         	           
+   		           //*****************************************************************************************************************
+   		           
+     	        		}
+        
     	
     	
     	

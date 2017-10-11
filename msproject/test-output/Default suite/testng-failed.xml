@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="ms_TestScripts.MS_TC1">
+      <class name="ms_TestScripts.MS_TC05">
         <methods>
           <include name="AddEmployee"/>
         </methods>
-      </class> <!-- ms_TestScripts.MS_TC1 -->
+      </class> <!-- ms_TestScripts.MS_TC05 -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

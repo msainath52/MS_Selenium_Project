@@ -10,14 +10,14 @@ public class MS_TC02
 	@Test
 	
 
-	public void AddEmployee()
+	public void AddEmployee() throws Throwable
 	{
 	
 		MS_BusinessFunctions Br = new MS_BusinessFunctions ();
 		Br.Configuration("Chrome");
-		Br.OpenApplication("http://apps.qaplanet.in/qahrm/login.php");
+		Br.OpenApplication("http://classroom:90/qahrm/login.php");
 		Br.LoginToOrangeHRM("qaplanet1", "user1");
-		Br.AddEmployee();
+		Br.AddEmployee("QAP","Tset");
 		Br.LogoutFromApp();
 		Br.closebrowser();
 		Br.quitobject();

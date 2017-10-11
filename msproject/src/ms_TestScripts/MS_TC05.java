@@ -1,26 +1,29 @@
 package ms_TestScripts;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import org.testng.annotations.Test;
+
 import ms_LIB.MS_BusinessFunctions;
 
-public class MS_TC03 
-{
+public class MS_TC05 {
 
-	@Test
+@Test
 	
-	public void EditEmployee() throws Exception 
+
+	public void AddEmployee() throws Exception
 	{
 	
 		MS_BusinessFunctions Br = new MS_BusinessFunctions ();
 		Br.Configuration("Chrome");
-		Br.OpenApplication("http://classroom:90/qahrm/login.php");
+		Br.OpenApplication("http://apps.qaplanet.in/qahrm/login.php");
 		Br.LoginToOrangeHRM("qaplanet1", "user1");
-		Br.AddEmployee("QAP","Tset");
-		Br.edit_employee("QAP","Tset");
+		Br.addlocation();
 		Br.LogoutFromApp();
 		Br.closebrowser();
 		Br.quitobject();
-
-	}
-
+		
+		
+	}			
 }

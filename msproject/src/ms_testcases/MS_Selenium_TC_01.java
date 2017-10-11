@@ -12,7 +12,7 @@ public class MS_Selenium_TC_01 {
 	   System.setProperty("webdriver.chrome.driver", "D:\\tet\\chromedriver.exe");  
 		
 	   ChromeDriver Driver = new ChromeDriver();
-	   Driver.get("http://apps.qaplanet.in/qahrm/login.php");
+	   Driver.get("http://classroom:90/qahrm/login.php");
 	   
 // Wait 2 sec
 	   Thread.sleep(2000);
